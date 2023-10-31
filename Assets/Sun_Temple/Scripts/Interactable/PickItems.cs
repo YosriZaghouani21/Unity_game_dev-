@@ -42,6 +42,7 @@ public class PickItems : MonoBehaviour
         Book.GetComponent<Rigidbody>().isKinematic = false;
         Book.GetComponent<MeshCollider>().enabled = true;
         isPickedUp = false;
+        playerInRange = false;
     }
     void EquipBook()
     {
@@ -64,23 +65,5 @@ public class PickItems : MonoBehaviour
             }
         }
     }
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.CompareTag("player"))
-        {
-            playerInRange = true;
-        }
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("player"))
-        {
-            playerInRange = false;
-        }
-    }
 
-    public string GetItemName()
-    {
-        return ItemName;
-    }
 }
