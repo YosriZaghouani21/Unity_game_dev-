@@ -16,12 +16,12 @@ public class DialogueSystem : MonoBehaviour
 
     public Canvas dialogUI;
 
-    public bool dialogUIactive;
+    public GameObject dialogUIactive;
 
 
     private void Awake()
     {
-        if(Instance != null && Instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
         }
@@ -32,22 +32,39 @@ public class DialogueSystem : MonoBehaviour
     }
 
     public void OpenDialogUI()
-    { 
-        dialogUIactive.gameObject.SetActive(true) ;
-        dialogUIactive = true ;
+    {
+        // Make sure the dialogUIactive reference is not null before trying to access its gameObject property
+        if (dialogUIactive != null)
+        {
+            // Activate the dialog UI (assuming dialogUIactive is a GameObject)
+            dialogUIactive.SetActive(true);
+        }
+        else
+        {
+            Debug.LogError("dialogUIactive is not assigned in the Inspector.");
+        }
 
-        Cursor lockState = CursosLockMode.None ;
-        Cursor visible = true;
+        // Adjust the cursor settings
+        Cursor.lockState = CursorLockMode.None; // This should be CursorLockMode, not CursosLockMode
+        Cursor.visible = true;
     }
 
 
     public void CloseDialogUI()
     {
-        dialogUIactive.gameObject.SetActive(false);
-        dialogUIactive = false;
+        // Make sure the dialogUIactive reference is not null before trying to access its gameObject property
+        if (dialogUIactive != null)
+        {
+            // Deactivate the dialog UI (assuming dialogUIactive is a GameObject)
+            dialogUIactive.SetActive(false);
+        }
+        else
+        {
+            Debug.LogError("dialogUIactive is not assigned in the Inspector.");
+        }
 
-        Cursor lockState = CursosLockMode.Locked;
-        Cursor visible = false;
-
+        // Adjust the cursor settings
+        Cursor.lockState = CursorLockMode.Locked; // This should be CursorLockMode, not CursosLockMode
+        Cursor.visible = false;
     }
 }
