@@ -31,32 +31,36 @@ public class NPC : MonoBehaviour
     }
 
     public void StartConversation()
-
     {
         isTalkingWithPlayer = true;
 
         print("Conversation Started");
 
-        DialogueSystem.Instance.OpenDialogUI();
-        DialogueSystem.Instance.dialogText.text = "Hello There";
-        DialogueSystem.Instance.option1BTN.transform.Find("Text (TMP)").GetComponent<TextMeshProUGUI>().text = "Bye";
-        DialogueSystem.Instance.option1BTN.onClick.AddListener(() =>
+        // Assuming you have a reference to the 'DialogueSystem' instance
+        DialogueSystem dialogueSystem = DialogueSystem.Instance;
+
+        // Set the text of the dialog
+        dialogueSystem.dialogtext.text = "Hello There";
+
+        // Continue with other code
+        dialogueSystem.option1BTN.transform.Find("Text (TMP)").GetComponent<TextMeshProUGUI>().text = "Bye";
+        dialogueSystem.option1BTN.onClick.AddListener(() =>
         {
-            DialogueSystem.Instance.CloseDialogUI();
+            dialogueSystem.CloseDialogUI();
             isTalkingWithPlayer = false;
         });
-
     }
+
 
 
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
