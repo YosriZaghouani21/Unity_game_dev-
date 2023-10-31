@@ -13,6 +13,8 @@ public class PickItems : MonoBehaviour
     private Vector3 initialBookPosition;
     private Quaternion initialBookRotation;
     private bool isPickedUp = false;
+    public bool playerInRange;
+    public string ItemName;
     // Start is called before the first frame update
     void Start()
     {
@@ -57,8 +59,28 @@ public class PickItems : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.E))
             {
+                playerInRange = true;
                 EquipBook();
             }
         }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("player"))
+        {
+            playerInRange = true;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("player"))
+        {
+            playerInRange = false;
+        }
+    }
+
+    public string GetItemName()
+    {
+        return ItemName;
     }
 }
