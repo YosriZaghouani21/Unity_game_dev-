@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MouseMovement : MonoBehaviour
 {
-    public float mouseSensitivity = 250f;
+    public float mouseSensitivity = 150f;
 
     float xRotation = 0f;
     float YRotation = 0f;
@@ -17,7 +17,7 @@ public class MouseMovement : MonoBehaviour
 
     void Update()
     {
-        if(!DialogueSystem.Instance.dialogUIactive)
+        if(!DialogueSystem.Instance.dialogUIActive)
         { 
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;

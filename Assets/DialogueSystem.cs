@@ -10,14 +10,10 @@ public class DialogueSystem : MonoBehaviour
     public static DialogueSystem Instance { get; set; }
 
     public TextMeshProUGUI dialogtext;
-
     public Button option1BTN;
     public Button option2BTN;
-
     public Canvas dialogUI;
-
-    public GameObject dialogUIactive;
-
+    public bool dialogUIActive;
 
     private void Awake()
     {
@@ -33,38 +29,18 @@ public class DialogueSystem : MonoBehaviour
 
     public void OpenDialogUI()
     {
-        // Make sure the dialogUIactive reference is not null before trying to access its gameObject property
-        if (dialogUIactive != null)
-        {
-            // Activate the dialog UI (assuming dialogUIactive is a GameObject)
-            dialogUIactive.SetActive(true);
-        }
-        else
-        {
-            Debug.LogError("dialogUIactive is not assigned in the Inspector.");
-        }
-
-        // Adjust the cursor settings
-        Cursor.lockState = CursorLockMode.None; // This should be CursorLockMode, not CursosLockMode
+        dialogUI.gameObject.SetActive(true);
+        dialogUIActive = true;
+        Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
 
 
     public void CloseDialogUI()
     {
-        // Make sure the dialogUIactive reference is not null before trying to access its gameObject property
-        if (dialogUIactive != null)
-        {
-            // Deactivate the dialog UI (assuming dialogUIactive is a GameObject)
-            dialogUIactive.SetActive(false);
-        }
-        else
-        {
-            Debug.LogError("dialogUIactive is not assigned in the Inspector.");
-        }
-
-        // Adjust the cursor settings
-        Cursor.lockState = CursorLockMode.Locked; // This should be CursorLockMode, not CursosLockMode
+        dialogUI.gameObject.SetActive(false);   
+        dialogUIActive = false; 
+        Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 }

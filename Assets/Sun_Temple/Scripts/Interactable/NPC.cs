@@ -12,7 +12,7 @@ public class NPC : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.gameObject.tag == "Player")
         {
             playerInRange = true;
         }
@@ -22,7 +22,7 @@ public class NPC : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.gameObject.tag == "Player")
         {
             playerInRange = false;
         }
@@ -36,17 +36,12 @@ public class NPC : MonoBehaviour
 
         print("Conversation Started");
 
-        // Assuming you have a reference to the 'DialogueSystem' instance
-        DialogueSystem dialogueSystem = DialogueSystem.Instance;
-
-        // Set the text of the dialog
-        dialogueSystem.dialogtext.text = "Hello There";
-
-        // Continue with other code
-        dialogueSystem.option1BTN.transform.Find("Text (TMP)").GetComponent<TextMeshProUGUI>().text = "Bye";
-        dialogueSystem.option1BTN.onClick.AddListener(() =>
+        DialogueSystem.Instance.OpenDialogUI();
+        DialogueSystem.Instance.dialogtext.text = "Hello There";
+        DialogueSystem.Instance.option1BTN.transform.Find("Text (TMP)").GetComponent<TextMeshProUGUI>().text = "Bye";
+        DialogueSystem.Instance.option1BTN.onClick.AddListener(() =>
         {
-            dialogueSystem.CloseDialogUI();
+            DialogueSystem.Instance.CloseDialogUI();
             isTalkingWithPlayer = false;
         });
     }

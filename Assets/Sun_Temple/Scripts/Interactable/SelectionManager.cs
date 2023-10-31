@@ -56,10 +56,14 @@ public class SelectionManager : MonoBehaviour
                 {
                 npc.StartConversation();
                 }
+                if (DialogueSystem.Instance.dialogUIActive)
+                {
+                    interaction_Info_UI.SetActive(false);
+                }
             }
             else
             {
-                interaction_text.text = "";
+                interaction_text.text = "AAAAAAAAAAAAAAAAA";
                 interaction_Info_UI.SetActive(false);
             }
             if (interactable && interactable.playerInRange) {
