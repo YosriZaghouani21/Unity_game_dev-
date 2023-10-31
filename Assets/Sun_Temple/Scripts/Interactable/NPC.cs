@@ -15,6 +15,7 @@ public class NPC : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             playerInRange = true;
+            StartConversation();
         }
 
 
@@ -25,6 +26,7 @@ public class NPC : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             playerInRange = false;
+            EndConversation();
         }
 
 
@@ -44,6 +46,14 @@ public class NPC : MonoBehaviour
             DialogueSystem.Instance.CloseDialogUI();
             isTalkingWithPlayer = false;
         });
+    }
+
+    public void EndConversation()
+    {
+        isTalkingWithPlayer = false;
+        DialogueSystem.Instance.CloseDialogUI();
+        print("Conversation Ended");
+   
     }
 
 
