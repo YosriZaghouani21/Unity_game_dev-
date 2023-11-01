@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class MenuManager : MonoBehaviour
 
     public bool isMenuOpen;
     private int selectedOption; // Track the selected menu option
+
+    private CursorLockMode previousCursorLockMode;
 
     private void Awake()
     {
@@ -92,23 +95,41 @@ public class MenuManager : MonoBehaviour
         switch (selectedOption)
         {
             case 0:
-                // Start the game
+                // Start the game (e.g., load a new scene)
+                SceneManager.LoadScene("YourGameSceneName");
                 break;
             case 1:
-                // Open save menu
+                // Open or close the save menu
+                saveMenu.SetActive(!saveMenu.activeSelf);
                 break;
             case 2:
-                // Open settings menu
+                // Open or close the settings menu
+                settingMenu.SetActive(!settingMenu.activeSelf);
                 break;
         }
     }
 
     void OpenMenu()
     {
+        previousCursorLockMode = Cursor.lockState;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
         uiCanvas.SetActive(false);
         menuCanvas.SetActive(true);
         isMenuOpen = true;
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+      
+    }
+    
+
+    void CloseMenu()
+    {
+        Cursor.lockState = previousCursorLockMode;
+        Cursor.visible = false;
+
+        uiCanvas.SetActive(true);
+        menuCanvas.SetActive(false);
+        isMenuOpen = false;
+   
     }
 }
