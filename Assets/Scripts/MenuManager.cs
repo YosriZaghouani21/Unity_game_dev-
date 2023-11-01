@@ -132,4 +132,7 @@ public class MenuManager : MonoBehaviour
         isMenuOpen = false;
    
     }
+    public void TempSaveGame(){
+        SaveManager.Instance.SaveGame();
+    }
 }

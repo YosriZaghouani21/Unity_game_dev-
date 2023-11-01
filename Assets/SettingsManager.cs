@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-
+using static SaveManager;
 public class SettingsManager : MonoBehaviour
 {
     public static SettingsManager Instance { get; private set; }
@@ -38,7 +38,7 @@ public class SettingsManager : MonoBehaviour
         backBTN.onClick.AddListener(() =>
         {
             // Save the updated volume settings when the back button is clicked
-            MainMenuSaveManager.Instance.SaveVolumeSettings(musicSlider.value, effectsSlider.value, masterSlider.value);
+            SaveManager.Instance.SaveVolumeSettings(musicSlider.value, effectsSlider.value, masterSlider.value);
         });
 
         StartCoroutine(LoadAndApplySettings()); // Corrected StartCoroutine
@@ -52,7 +52,7 @@ public class SettingsManager : MonoBehaviour
 
     private void LoadAndSetVolume()
     {
-        MainMenuSaveManager.VolumeSettings volumeSettings = MainMenuSaveManager.Instance.LoadVolumeSettings();
+        SaveManager.VolumeSettings volumeSettings = SaveManager.Instance.LoadVolumeSettings();
         masterSlider.value = volumeSettings.master;
         musicSlider.value = volumeSettings.music;
         effectsSlider.value = volumeSettings.effects;
@@ -70,7 +70,7 @@ public class SettingsManager : MonoBehaviour
     private void LoadVolumeSettings()
     {
         // Load and apply volume settings when the script starts
-        MainMenuSaveManager.VolumeSettings volumeSettings = MainMenuSaveManager.Instance.LoadVolumeSettings();
+        SaveManager.VolumeSettings volumeSettings = SaveManager.Instance.LoadVolumeSettings();
         masterSlider.value = volumeSettings.master;
         musicSlider.value = volumeSettings.music;
         effectsSlider.value = volumeSettings.effects;
