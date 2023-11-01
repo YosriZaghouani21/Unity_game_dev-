@@ -40,6 +40,23 @@ public class SettingsManager : MonoBehaviour
             // Save the updated volume settings when the back button is clicked
             MainMenuSaveManager.Instance.SaveVolumeSettings(musicSlider.value, effectsSlider.value, masterSlider.value);
         });
+
+        StartCoroutine(LoadAndApplySettings()); // Corrected StartCoroutine
+    }
+
+    private IEnumerator LoadAndApplySettings()
+    {
+        LoadAndSetVolume();
+        yield return new WaitForSeconds(0.1f); // Corrected WaitForSeconds
+    }
+
+    private void LoadAndSetVolume()
+    {
+        MainMenuSaveManager.VolumeSettings volumeSettings = MainMenuSaveManager.Instance.LoadVolumeSettings();
+        masterSlider.value = volumeSettings.master;
+        musicSlider.value = volumeSettings.music;
+        effectsSlider.value = volumeSettings.effects;
+        Debug.Log("Volume Settings are loaded"); // Changed "print" to "Debug.Log"
     }
 
     private void Update()
