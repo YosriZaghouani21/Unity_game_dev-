@@ -19,14 +19,7 @@ public class InteractableObject : MonoBehaviour
             playerInRange = true;
 
         }
-
-
-
-
     }
-
-
-
 
     private void OnTriggerExit(Collider other)
     {

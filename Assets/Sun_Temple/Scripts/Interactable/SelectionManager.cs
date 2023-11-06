@@ -54,7 +54,7 @@ public class SelectionManager : MonoBehaviour
             }
             else
             {
-                interaction_Info_UI.SetActive(true);
+                interaction_Info_UI.SetActive(false);
                 OnTarget = false;
             }
 
