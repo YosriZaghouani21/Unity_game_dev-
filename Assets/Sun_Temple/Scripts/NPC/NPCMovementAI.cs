@@ -30,7 +30,6 @@ public class NPCMovementAI : MonoBehaviour
                 {
                     // Arrived at the destination
                     animator.SetBool("IsWalking", false);
-                    print("AAAAAAAA");
                     animator.SetBool("ReachedDestination", true); // Transition to waving animation
                     isMoving = false;
                 }
