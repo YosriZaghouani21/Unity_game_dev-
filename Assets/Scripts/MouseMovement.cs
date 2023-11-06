@@ -9,6 +9,21 @@ public class MouseMovement : MonoBehaviour
     float xRotation = 0f;
     float YRotation = 0f;
 
+        public static MouseMovement Instance { get; private set; }
+
+        void Awake()
+        {
+            if (Instance != null && Instance != this)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                Instance = this;
+            }
+        }
+
+
     void Start()
     {
         //Locking the cursor to the middle of the screen and making it invisible
@@ -35,4 +50,18 @@ public class MouseMovement : MonoBehaviour
         transform.localRotation = Quaternion.Euler(xRotation, YRotation, 0f);
         }
     }
+    public void StopMouseLook()
+    {
+        Cursor.lockState = CursorLockMode.None;  // Free the cursor
+        Cursor.visible = true;  // Make cursor visible
+        enabled = false;  // Disable this script
+    }
+
+    public void ResumeMouseLook()
+    {
+        Cursor.lockState = CursorLockMode.Locked;  // Lock the cursor back
+        Cursor.visible = false;  // Make cursor invisible
+        enabled = true;  // Re-enable the script
+    }
+
 }

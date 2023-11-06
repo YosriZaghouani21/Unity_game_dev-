@@ -33,6 +33,7 @@ public class DialogueSystem : MonoBehaviour
         dialogUIActive = true;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+
     }
 
 
