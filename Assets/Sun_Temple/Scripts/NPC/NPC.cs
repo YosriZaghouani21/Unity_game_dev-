@@ -12,10 +12,9 @@ public class NPC : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.CompareTag("Player"))
         {
             playerInRange = true;
-            StartConversation();
         }
 
 
@@ -23,21 +22,18 @@ public class NPC : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.CompareTag("Player"))
         {
             playerInRange = false;
-            EndConversation();
         }
 
 
     }
 
-    public void StartConversation()
+    internal void StartConversation()
     {
         isTalkingWithPlayer = true;
-
         print("Conversation Started");
-
         DialogueSystem.Instance.OpenDialogUI();
         DialogueSystem.Instance.dialogtext.text = "Hello There";
         DialogueSystem.Instance.option1BTN.transform.Find("Text (TMP)").GetComponent<TextMeshProUGUI>().text = "Bye";
@@ -46,26 +42,5 @@ public class NPC : MonoBehaviour
             DialogueSystem.Instance.CloseDialogUI();
             isTalkingWithPlayer = false;
         });
-    }
-
-    public void EndConversation()
-    {
-        isTalkingWithPlayer = false;
-        DialogueSystem.Instance.CloseDialogUI();
-        print("Conversation Ended");
-   
-    }
-
-
-
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }

@@ -17,14 +17,23 @@ public class PlayerMovement : MonoBehaviour
     Vector3 velocity;
 
     bool isGrounded;
+    public static PlayerMovement Instance { get; private set; }
 
+    void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
     // Update is called once per frame
     void Update()
     {
-        if (DialogueSystem.Instance.dialogUIActive == false)
-        {
                 Movement();
-        }
     }
     public void Movement()
     {
@@ -55,4 +64,5 @@ public class PlayerMovement : MonoBehaviour
 
         controller.Move(velocity * Time.deltaTime);
     }
+
 }

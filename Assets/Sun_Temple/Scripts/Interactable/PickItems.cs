@@ -3,7 +3,6 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.UI;
 
 public class PickItems : MonoBehaviour
@@ -14,7 +13,6 @@ public class PickItems : MonoBehaviour
     private Quaternion initialBookRotation;
     private bool isPickedUp = false;
     public bool playerInRange;
-    public string ItemName;
     // Start is called before the first frame update
     void Start()
     {
@@ -60,10 +58,28 @@ public class PickItems : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.E))
             {
-                playerInRange = true;
                 EquipBook();
             }
         }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerInRange = true;
+        }
+
+
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerInRange = false;
+        }
+
+
     }
 
 }
