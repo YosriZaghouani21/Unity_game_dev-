@@ -1,14 +1,9 @@
 using UnityEngine;
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.UI;
-
 public class PickItems : MonoBehaviour
 {
-    public GameObject Book;
-    public Transform BookParent;
+    public GameObject Item;
+    public Transform ItemParent;
     private Vector3 initialBookPosition;
     private Quaternion initialBookRotation;
     private bool isPickedUp = false;
@@ -17,9 +12,9 @@ public class PickItems : MonoBehaviour
     void Start()
     {
 
-        Book.GetComponent<Rigidbody>().isKinematic = true;
-        initialBookRotation = Book.transform.rotation;
-        initialBookPosition = Book.transform.position;
+        Item.GetComponent<Rigidbody>().isKinematic = true;
+        initialBookRotation = Item.transform.rotation;
+        initialBookPosition = Item.transform.position;
     }
 
     // Update is called once per frame
@@ -34,23 +29,23 @@ public class PickItems : MonoBehaviour
 
     private void DropBook()
     {
-        BookParent.DetachChildren();
-        Book.transform.position = initialBookPosition;
-        Book.transform.rotation = initialBookRotation;
-        Book.GetComponent<Rigidbody>().isKinematic = false;
-        Book.GetComponent<MeshCollider>().enabled = true;
+        ItemParent.DetachChildren();
+        Item.transform.position = initialBookPosition;
+        Item.transform.rotation = initialBookRotation;
+        Item.GetComponent<Rigidbody>().isKinematic = false;
+        Item.GetComponent<MeshCollider>().enabled = true;
         isPickedUp = false;
         playerInRange = false;
     }
     void EquipBook()
     {
-        Book.GetComponent<Rigidbody>().isKinematic = true;
-        Book.transform.position = BookParent.transform.position;
-        Book.transform.rotation = BookParent.transform.rotation;
-        Book.GetComponent<MeshCollider>().enabled = false;
-        Book.transform.SetParent(BookParent);
+        Item.GetComponent<Rigidbody>().isKinematic = true;
+        Item.transform.position = ItemParent.transform.position;
+        Item.transform.rotation = ItemParent.transform.rotation;
+        Item.GetComponent<MeshCollider>().enabled = false;
+        Item.transform.SetParent(ItemParent);
         isPickedUp = true;
-        Book.transform.Rotate(84.939f, -1.999f, -184.178f);
+        Item.transform.Rotate(84.939f, -1.999f, -184.178f);
     }
     private void OnTriggerStay(Collider other)
     {
