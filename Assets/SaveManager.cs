@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using UnityEngine.SceneManagement;
+using SunTemple; // Assuming CharController_Motor is in the SunTemple namespace
 
 public class SaveManager : MonoBehaviour
 {
     public static SaveManager Instance { get; private set; }
+
+    [SerializeField] private bool isSavingJson = false;
 
     private void Awake()
     {
@@ -17,37 +21,33 @@ public class SaveManager : MonoBehaviour
         else
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
     }
-public bool isSavingJson;
-   #region General Section
-  public void SaveGame()
-{
-    PlayerData playerData = GetPlayerData();
-    AllGameData data = new AllGameData(playerData);
-    SaveAllGameData(data);
-}
 
-
-    private PlayerData GetPlayerData()
+    public void SaveGame()
     {
-        float[] playerStats = new float[3];
-        // You should define the properties you are accessing here, e.g., PlayerState.Instance.currentHeath
-        playerStats[0] = 0.0f;
-        playerStats[1] = 0.0f;
-        playerStats[2] = 0.0f;
+        PlayerData playerData = GetPlayerData();
+        AllGameData data = new AllGameData(playerData);
+        SaveAllGameData(data);
+    }
 
-        float[] playerPosAndRot = new float[6];
-        // You should define the properties you are accessing here, e.g., PlayerState.Instance.playBody.transform.position.x
-        playerPosAndRot[0] = 0.0f;
-        playerPosAndRot[1] = 0.0f;
-        playerPosAndRot[2] = 0.0f;
-        playerPosAndRot[3] = 0.0f;
-        playerPosAndRot[4] = 0.0f;
-        playerPosAndRot[5] = 0.0f;
+    public PlayerData GetPlayerData()
+    {
+        Transform playerTransform = PlayerState.Instance.playBody;
 
-        return new PlayerData(playerStats, playerPosAndRot);
+        if (playerTransform != null)
+        {
+            Vector3 position = playerTransform.position;
+            Quaternion rotation = playerTransform.rotation;
+            PlayerData playerData = new PlayerData(position, rotation);
+            return playerData;
+        }
+        else
+        {
+            Debug.LogError("Player's body reference is missing.");
+            return null;
+        }
     }
 
     public void SaveAllGameData(AllGameData gameData)
@@ -55,46 +55,150 @@ public bool isSavingJson;
         if (isSavingJson)
         {
             // Implement saving to JSON here
+            SaveGameDataToJsonFile(gameData);
         }
         else
         {
             SaveGameDataToBinaryFile(gameData);
         }
     }
-    #endregion
 
-    #region Binary Save/Load Section
-    public void SaveGameDataToBinaryFile(AllGameData gameData)
+    private void SaveGameDataToJsonFile(AllGameData gameData)
     {
-        BinaryFormatter formatter = new BinaryFormatter();
-        string path = Application.persistentDataPath + "/save_game.bin";
-        FileStream stream = new FileStream(path, FileMode.Create);
-        formatter.Serialize(stream, gameData);
-        stream.Close();
+        string path = Application.persistentDataPath + "/save_game.json";
+        string json = JsonUtility.ToJson(gameData);
+        File.WriteAllText(path, json);
         Debug.Log("Data saved to " + path);
     }
 
-    public AllGameData LoadGameDataFromBinaryFile()
+    private void SaveGameDataToBinaryFile(AllGameData gameData)
+    {
+        BinaryFormatter formatter = new BinaryFormatter();
+        string path = Application.persistentDataPath + "/save_game.bin";
+
+        try
+        {
+            using (FileStream stream = new FileStream(path, FileMode.Create))
+            {
+                formatter.Serialize(stream, gameData);
+            }
+
+            Debug.Log("Data saved to " + path);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("Error while saving data: " + e.Message);
+        }
+    }
+
+    public AllGameData LoadAllGameData()
+    {
+        if (isSavingJson)
+        {
+            // Implement loading from JSON here
+            return LoadGameDataFromJsonFile();
+        }
+        else
+        {
+            return LoadGameDataFromBinaryFile();
+        }
+    }
+
+    private AllGameData LoadGameDataFromJsonFile()
+    {
+        string path = Application.persistentDataPath + "/save_game.json";
+        if (File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            AllGameData data = JsonUtility.FromJson<AllGameData>(json);
+            Debug.Log("Data loaded from " + path);
+            return data;
+        }
+        return null;
+    }
+
+    private AllGameData LoadGameDataFromBinaryFile()
     {
         string path = Application.persistentDataPath + "/save_game.bin";
         if (File.Exists(path))
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream = new FileStream(path, FileMode.Open);
-            AllGameData data = formatter.Deserialize(stream) as AllGameData;
-            stream.Close();
-            return data;
+            using (FileStream stream = new FileStream(path, FileMode.Open))
+            {
+                AllGameData data = formatter.Deserialize(stream) as AllGameData;
+                Debug.Log("Data loaded from " + path);
+                return data;
+            }
+        }
+        return null;
+    }
+
+    // In LoadGame method:
+public void LoadGame()
+{
+    AllGameData gameData = LoadAllGameData();
+    if (gameData != null)
+    {
+        PlayerData playerData = gameData.PlayerData; // Retrieve player data from gameData
+        SetPlayerData(playerData);
+
+        // Update the player's position and rotation
+        CharController_Motor charControllerMotor = FindObjectOfType<CharController_Motor>();
+        charControllerMotor.SetPlayerPositionAndRotation(playerData.position.ToVector3(), playerData.rotation.ToQuaternion());
+    }
+}
+
+
+
+
+
+// In SetPlayerData method:
+private void SetPlayerData(PlayerData playerData)
+{
+    if (playerData == null)
+    {
+        Debug.LogError("PlayerData is null.");
+        return;
+    }
+
+    Vector3 position = playerData.position.ToVector3();
+    Quaternion rotation = playerData.rotation.ToQuaternion();
+
+    // Check if PlayerState.Instance is not null
+    if (PlayerState.Instance != null)
+    {
+        if (PlayerState.Instance.playBody != null)
+        {
+            Transform playerTransform = PlayerState.Instance.playBody;
+            playerTransform.position = position;
+            playerTransform.rotation = rotation;
+            Debug.Log("Player position set to: " + position);
+            Debug.Log("Player rotation set to: " + rotation);
         }
         else
         {
-            return null;
+            Debug.LogError("playBody reference in PlayerState is missing.");
         }
     }
-        #endregion
+    else
+    {
+        Debug.LogError("PlayerState is missing.");
+    }
+}
 
-#region || --------Settings Section---------- || 
-#region || --------Volume Section---------- || 
+    public void StartLoadedGame()
+    {
+        SceneManager.LoadScene("lvl1test");
+        StartCoroutine(DelayedLoading());
+    }
 
+    private IEnumerator DelayedLoading()
+    {
+        yield return new WaitForSeconds(1f);
+        LoadGame();
+    }
+
+    // Volume settings section (No changes made)
     [System.Serializable]
     public class VolumeSettings
     {
@@ -102,6 +206,7 @@ public bool isSavingJson;
         public float effects;
         public float master;
     }
+
     public void SaveVolumeSettings(float _music, float _effects, float _master)
     {
         VolumeSettings volumeSettings = new VolumeSettings()
@@ -114,7 +219,7 @@ public bool isSavingJson;
         string json = JsonUtility.ToJson(volumeSettings);
         PlayerPrefs.SetString("Volume", json);
         PlayerPrefs.Save();
-        print("Saved to Player Pref");
+        Debug.Log("Saved to PlayerPrefs");
     }
 
     public VolumeSettings LoadVolumeSettings()
@@ -126,12 +231,7 @@ public bool isSavingJson;
         }
         else
         {
-            // If no volume settings are saved, return default values
             return new VolumeSettings();
         }
     }
-    #endregion
-        #endregion
-
-
 }

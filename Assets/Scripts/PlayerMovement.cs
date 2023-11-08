@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 12f;
     public float gravity = -9.81f * 2;
     public float jumpHeight = 3f;
+    private Transform playerTransform; // Reference to the player's transform
 
     public Transform groundCheck;
     public float groundDistance = 0.4f;
@@ -17,7 +18,22 @@ public class PlayerMovement : MonoBehaviour
     Vector3 velocity;
 
     bool isGrounded;
+void Start()
+    {
+        playerTransform = transform;
+    }
 
+    public void SetPlayerPosition(Vector3 position)
+    {
+        // Set the player's position
+        playerTransform.position = position;
+    }
+
+    public void SetPlayerRotation(Quaternion rotation)
+    {
+        // Set the player's rotation
+        playerTransform.rotation = rotation;
+    }
     // Update is called once per frame
     void Update()
     {
