@@ -28,7 +28,10 @@ public class Elisa : MonoBehaviour
         DialogueSystem.Instance.option1BTN.onClick.RemoveAllListeners();
         DialogueSystem.Instance.option1BTN.transform.Find("Text (TMP)").GetComponent<TextMeshProUGUI>().text = "Read More";
         DialogueSystem.Instance.option1BTN.gameObject.SetActive(true);
+
+   
     }
+
 
 
     private void OnTriggerEnter(Collider other)
