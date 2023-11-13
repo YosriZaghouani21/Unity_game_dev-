@@ -12,9 +12,24 @@ public class SelectionManager : MonoBehaviour
     public GameObject selectedObject;
     private void Start()
     {
-        interaction_text = interaction_Info_UI.GetComponent<Text>();
         interaction_Info_UI.SetActive(false);
         OnTarget = false;
+
+        // Check if the Text component exists, then assign it to interaction_text
+        if (interaction_Info_UI != null)
+        {
+            interaction_text = interaction_Info_UI.GetComponent<Text>();
+            if (interaction_text == null)
+            {
+                // If the Text component is not found, log an error or handle it accordingly
+                Debug.LogError("Text component not found on interaction_Info_UI!");
+            }
+        }
+        else
+        {
+            // Handle the case where interaction_Info_UI is null
+            Debug.LogError("interaction_Info_UI is not assigned!");
+        }
     }
 
     void Update()
@@ -26,12 +41,15 @@ public class SelectionManager : MonoBehaviour
             var selectionTransform = hit.transform;
             InteractableObject interactable  = selectionTransform.GetComponent<InteractableObject>();
             NPC npc = selectionTransform.GetComponent<NPC>();
-                if (npc && npc.playerInRange)
+            Elisa item = selectionTransform.GetComponent<Elisa>();
+                if (npc && npc.playerInRange )
                 {
                     interaction_text.text = "Talk";
                     interaction_Info_UI.SetActive(true);
-                  
-                    if (Input.GetMouseButton(0) && npc.isTalkingWithPlayer == false)   //CHANGE TO TACTILE
+
+
+
+                if (Input.GetMouseButton(0) && npc.isTalkingWithPlayer == false )   //CHANGE TO TACTILE
                     {
                         npc.StartConversation();
                     }
@@ -40,7 +58,21 @@ public class SelectionManager : MonoBehaviour
                         interaction_Info_UI.SetActive(false);
                     }
                 }
-                else
+            else if (item && item.playerInRange)
+            {
+                interaction_text.text = "Talk";
+                interaction_Info_UI.SetActive(true);
+                if (Input.GetMouseButton(0) && item.isTalkingWithPlayer == false)   //CHANGE TO TACTILE
+                {
+                    item.StartConversation();
+                }
+                if (DialogueSystem.Instance.dialogUIActive)
+                {
+                    interaction_Info_UI.SetActive(false);
+                }
+            }
+
+            else
                 {
                     interaction_text.text = "";
                     interaction_Info_UI.SetActive(true);
