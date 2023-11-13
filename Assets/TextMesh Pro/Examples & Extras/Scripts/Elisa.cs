@@ -24,8 +24,12 @@ public class Elisa : MonoBehaviour
         DialogueSystem.Instance.CloseDialogUI();
         isTalkingWithPlayer = false;
 
- 
+        // Reset the "Read More" button to its default state.
+        DialogueSystem.Instance.option1BTN.onClick.RemoveAllListeners();
+        DialogueSystem.Instance.option1BTN.transform.Find("Text (TMP)").GetComponent<TextMeshProUGUI>().text = "Read More";
+        DialogueSystem.Instance.option1BTN.gameObject.SetActive(true);
     }
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -124,6 +128,12 @@ public class Elisa : MonoBehaviour
             {
                 DialogueSystem.Instance.option1BTN.gameObject.SetActive(false);
             }
+            else
+            {
+                // Show the "Read More" button for subsequent texts.
+                DialogueSystem.Instance.option1BTN.gameObject.SetActive(true);
+            }
         });
     }
+
 }

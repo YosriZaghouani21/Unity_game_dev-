@@ -29,12 +29,12 @@ public class NPC : MonoBehaviour
         DialogueSystem.Instance.CloseDialogUI();
         isTalkingWithPlayer = false;
 
-        // Here we call MoveToLevel1, but first check if npcMovementAI is not null
-        if (npcMovementAI != null)
-        {
-            npcMovementAI.MoveToLevel1();
-        }
+        // Reset the "Read More" button to its default state.
+        DialogueSystem.Instance.option1BTN.onClick.RemoveAllListeners();
+        DialogueSystem.Instance.option1BTN.transform.Find("Text (TMP)").GetComponent<TextMeshProUGUI>().text = "Read More";
+        DialogueSystem.Instance.option1BTN.gameObject.SetActive(true);
     }
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -133,6 +133,12 @@ public class NPC : MonoBehaviour
             {
                 DialogueSystem.Instance.option1BTN.gameObject.SetActive(false);
             }
+            else
+            {
+                // Show the "Read More" button for subsequent texts.
+                DialogueSystem.Instance.option1BTN.gameObject.SetActive(true);
+            }
         });
     }
+
 }
