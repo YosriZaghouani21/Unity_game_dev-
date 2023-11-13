@@ -8,26 +8,26 @@ public class PickItems : MonoBehaviour
     private Quaternion initialBookRotation;
     private bool isPickedUp = false;
     public bool playerInRange;
-    // Start is called before the first frame update
+    public bool isKeyEquipped = false; 
+    public InventoryManager inventoryManager;
+
     void Start()
     {
-
         Item.GetComponent<Rigidbody>().isKinematic = true;
         initialBookRotation = Item.transform.rotation;
         initialBookPosition = Item.transform.position;
+        inventoryManager = GameObject.FindGameObjectWithTag("Player").GetComponent<InventoryManager>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-
         if (Input.GetKey(KeyCode.F))
         {
-            DropBook();
+            DropItem();
         }
     }
 
-    private void DropBook()
+    public void DropItem()
     {
         ItemParent.DetachChildren();
         Item.transform.position = initialBookPosition;
@@ -36,8 +36,13 @@ public class PickItems : MonoBehaviour
         Item.GetComponent<MeshCollider>().enabled = true;
         isPickedUp = false;
         playerInRange = false;
+        if (Item.CompareTag("Key"))
+        {
+            inventoryManager.RemoveItem(Item.tag); // Remove the key from the inventory
+            isKeyEquipped = false;
+        }
     }
-    void EquipBook()
+    void EquipItem(Collider other)
     {
         Item.GetComponent<Rigidbody>().isKinematic = true;
         Item.transform.position = ItemParent.transform.position;
@@ -46,14 +51,19 @@ public class PickItems : MonoBehaviour
         Item.transform.SetParent(ItemParent);
         isPickedUp = true;
         Item.transform.Rotate(84.939f, -1.999f, -184.178f);
+        if (Item.CompareTag("Key"))
+        {
+            inventoryManager.AddItem(Item.tag); // Add the key to the inventory
+            isKeyEquipped = true;
+        }
     }
-    private void OnTriggerStay(Collider other)
+    public void OnTriggerStay(Collider other)
     {
         if (other.gameObject.tag == "Player")
         {
             if (Input.GetKey(KeyCode.E))
             {
-                EquipBook();
+                EquipItem(other);
             }
         }
     }
@@ -63,8 +73,6 @@ public class PickItems : MonoBehaviour
         {
             playerInRange = true;
         }
-
-
     }
 
     private void OnTriggerExit(Collider other)
@@ -73,8 +81,6 @@ public class PickItems : MonoBehaviour
         {
             playerInRange = false;
         }
-
-
     }
-
+   
 }

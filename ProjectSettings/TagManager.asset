@@ -5,7 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - NPC
+<<<<<<< Updated upstream
   - Dido
+=======
+  - Key
+>>>>>>> Stashed changes
   layers:
   - Default
   - TransparentFX
