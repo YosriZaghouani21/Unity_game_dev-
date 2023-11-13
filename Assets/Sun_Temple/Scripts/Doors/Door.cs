@@ -6,7 +6,7 @@ namespace SunTemple
 {
    
 
-    public class Door : MonoBehaviour
+        public class Door : MonoBehaviour
     {
 		public bool IsLocked = false;
         public bool DoorClosed = true;
@@ -15,11 +15,11 @@ namespace SunTemple
         public float MaxDistance = 3.0f;
 		public string playerTag = "Player";
 		private Collider DoorCollider;
-
-		private GameObject Player;
+        public PickItems pickItemsScript;
+        private GameObject Player;
 		private Camera Cam;
 		private CursorManager cursor;
-
+        private InventoryManager inventoryManager;
         Vector3 StartRotation;
         float StartAngle = 0;
         float EndAngle = 0;
@@ -35,8 +35,21 @@ namespace SunTemple
         void Start(){
             StartRotation = transform.localEulerAngles ;
 			DoorCollider = GetComponent<BoxCollider> ();
+            GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+            if (playerObject != null)
+            {
+                inventoryManager = playerObject.GetComponent<InventoryManager>();
+                if (inventoryManager == null)
+                {
+                    Debug.LogError("InventoryManager component not found on the player object!");
+                }
+            }
+            else
+            {
+                Debug.LogError("Player object not found in the scene!");
+            }
 
-			if (!DoorCollider) {
+            if (!DoorCollider) {
 				Debug.LogWarning (this.GetType ().Name + ".cs on " + gameObject.name + "door has no collider", gameObject);
 				scriptIsEnabled = false;
 				return;
@@ -84,28 +97,52 @@ namespace SunTemple
 				}
 			}
 
-		} 
-
-
-
-
-		void TryToOpen(){
-			if (Mathf.Abs(Vector3.Distance(transform.position, Player.transform.position)) <= MaxDistance){	
-
-				Ray ray = Cam.ScreenPointToRay (new Vector3 (Screen.width / 2, Screen.height / 2, 0));
-				RaycastHit hit;
-											
-				if (DoorCollider.Raycast(ray, out hit, MaxDistance)){					
-					if (IsLocked == false){
-						Activate ();
-					}
-				}
-			}
 		}
 
 
 
-		void CursorHint(){
+
+        void TryToOpen()
+        {
+            if (Mathf.Abs(Vector3.Distance(transform.position, Player.transform.position)) <= MaxDistance)
+            {
+                Ray ray = Cam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+                RaycastHit hit;
+
+                if (DoorCollider.Raycast(ray, out hit, MaxDistance))
+                {
+                    if (IsLocked)
+                    {
+                        if (inventoryManager != null && inventoryManager.HasItem("Key"))
+                        {
+                            IsLocked = false;
+                            Debug.Log("The door is now unlocked and open.");
+
+                            Activate();
+                        }
+                        else
+                        {
+                            Debug.Log("The door is locked. You need a key to open it.");
+                        }
+                    }
+                    else if (DoorClosed)
+                    {
+                        Activate();
+                    }
+                    else
+                    {
+                        Activate();
+                    }
+                }
+            }
+        }
+
+
+
+
+
+
+        void CursorHint(){
 			if (Mathf.Abs(Vector3.Distance(transform.position, Player.transform.position)) <= MaxDistance){	
 				Ray ray = Cam.ScreenPointToRay (new Vector3 (Screen.width / 2, Screen.height / 2, 0));
 				RaycastHit hit;
