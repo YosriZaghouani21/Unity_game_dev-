@@ -45,10 +45,7 @@ public class SelectionManager : MonoBehaviour
                 if (npc && npc.playerInRange )
                 {
                     interaction_text.text = "Talk";
-                    interaction_Info_UI.SetActive(true);
-
-
-
+                interaction_Info_UI.SetActive(true);
                 if (Input.GetMouseButton(0) && npc.isTalkingWithPlayer == false )   //CHANGE TO TACTILE
                     {
                         npc.StartConversation();
