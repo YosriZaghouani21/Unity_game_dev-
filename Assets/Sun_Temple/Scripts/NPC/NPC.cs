@@ -116,8 +116,10 @@ public class NPC : MonoBehaviour
         DialogueSystem.Instance.OpenDialogUI();
         fullTexts = new string[]
         {
-            "Greetings, Traveler lost in time. I am Monejya, your guide through this extraordinary journey.",
-            // ... (other conversation texts)
+          "Greetings, Traveler lost in time. I am Monejya, your guide through this extraordinary journey.",
+            "You may be feeling disoriented, but fear not I am here to assist you.",
+            "You stand amidst the Medina of Tunis in the year 1900. Your quest is to recover lost artifacts.",
+            "But be mindful of the clues hidden within these ancient streets. Start by examining the carpet over there."
         };
 
         currentTextIndex = 0;
