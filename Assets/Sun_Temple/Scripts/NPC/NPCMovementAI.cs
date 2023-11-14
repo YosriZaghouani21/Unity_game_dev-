@@ -20,7 +20,10 @@ public class NPCMovementAI : MonoBehaviour
     public void MoveToLevel1()
     {
         Debug.Log("Moving to Level 1");
+
+        animator.SetBool("IsWaving", false);
         animator.SetBool("IsWalking", true);
+        
         theAgent.SetDestination(theDestination.transform.position);
         isMoving = true;
         StartCoroutine(CheckArrival());
@@ -29,9 +32,11 @@ public class NPCMovementAI : MonoBehaviour
     public void MoveToNewDestination()
     {
         Debug.Log("Moving to New Destination");
+
+        animator.SetBool("IsWaving", false);
         animator.SetBool("IsWalking", true);
 
-        Vector3 newDestination = new Vector3(-7.054f, 17.15f, -150.399f);
+        Vector3 newDestination = new Vector3(-10.096f, 16.61f, -149.212f);
         theAgent.SetDestination(newDestination);
         isMoving = true;
         StartCoroutine(CheckArrival());
@@ -44,14 +49,17 @@ public class NPCMovementAI : MonoBehaviour
 
     private IEnumerator CheckArrival()
     {
-        Debug.Log("Checking Arrival");
         yield return new WaitUntil(() => !theAgent.pathPending);
-        while (Vector3.Distance(theAgent.transform.position, theDestination.transform.position) > theAgent.stoppingDistance)
+
+        while (Vector3.Distance(theAgent.transform.position, theAgent.destination) > theAgent.stoppingDistance)
         {
             yield return null;
         }
-        Debug.Log("Arrived at Destination");
+
+        Debug.Log("Arrived at a Destination");
         animator.SetBool("IsWalking", false);
-        isMoving = false;
+        animator.SetBool("IsWaving", true); // Transition to waving animation
     }
+
+
 }
