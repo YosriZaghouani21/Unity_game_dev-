@@ -57,7 +57,7 @@ public class Tarbuka : MonoBehaviour
         DialogueSystem.Instance.OpenDialogUI();
         fullTexts = new string[]
         {
-"Tabuka"        ,
+    " TabukaTabukaTabukaTabukaTabukaTabukaTabukaTabukaTabukaTabukaTabukaTabukaTabukaTabuka"        ,
         };
 
         currentTextIndex = 0;
