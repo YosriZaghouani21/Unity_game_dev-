@@ -16,7 +16,7 @@ public class MovingCutsceneCamera : MonoBehaviour
         StartCoroutine(MoveCamera());
     }
 
-    private IEnumerator MoveCamera()
+     IEnumerator MoveCamera()
     {
         float startTime = Time.time;
         float endTime = startTime + moveDuration;
@@ -36,8 +36,19 @@ public class MovingCutsceneCamera : MonoBehaviour
         Debug.Log("Camera move completed. Now pausing.");
 
         // Pause at the end point for the specified duration.
-        yield return new WaitForSecondsRealtime(pauseDuration);
+        yield return new WaitForSeconds(pauseDuration);
 
         Debug.Log("Pause complete. Coroutine has finished.");
+    }
+
+    IEnumerator test()
+    {
+
+        Debug.Log("AAAA");
+
+        // Pause at the end point for the specified duration.
+        yield return new WaitForSeconds(pauseDuration);
+
+        Debug.Log("BBB");
     }
 }

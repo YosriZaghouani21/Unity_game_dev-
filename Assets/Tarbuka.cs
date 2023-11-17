@@ -7,7 +7,6 @@ public class Tarbuka : MonoBehaviour
 {
     public bool playerInRange;
     public bool isTalkingWithPlayer;
-    private NPCMovementAI npcMovementAI;
 
     private bool isWriting;
     private string[] fullTexts;
