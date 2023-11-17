@@ -9,14 +9,13 @@ public class MovingCutsceneCamera : MonoBehaviour
     public float moveDuration; // Duration of the camera move in seconds
     public float pauseDuration; // Duration of the pause at the end in seconds
 
-    // Call this method to start the camera movement
     public void StartCameraMove()
     {
         Debug.Log("Camera move started.");
         StartCoroutine(MoveCamera());
     }
 
-     IEnumerator MoveCamera()
+    IEnumerator MoveCamera()
     {
         float startTime = Time.time;
         float endTime = startTime + moveDuration;
@@ -24,6 +23,12 @@ public class MovingCutsceneCamera : MonoBehaviour
         // Move the camera to the end point over the duration.
         while (Time.time <= endTime)
         {
+            if (!gameObject.activeInHierarchy)
+            {
+                Debug.LogWarning("Camera GameObject has been disabled; coroutine is exiting.");
+                yield break; // Exit if the GameObject is disabled
+            }
+
             float t = (Time.time - startTime) / moveDuration;
             transform.position = Vector3.Lerp(startPoint.position, endPoint.position, t);
             transform.rotation = Quaternion.Slerp(startPoint.rotation, endPoint.rotation, t);
@@ -33,22 +38,9 @@ public class MovingCutsceneCamera : MonoBehaviour
         // Ensure the camera is exactly at the end point
         transform.position = endPoint.position;
         transform.rotation = endPoint.rotation;
-        Debug.Log("Camera move completed. Now pausing.");
 
-        // Pause at the end point for the specified duration.
+        Debug.Log("Reached end point. Now pausing for " + pauseDuration + " seconds.");
         yield return new WaitForSeconds(pauseDuration);
-
         Debug.Log("Pause complete. Coroutine has finished.");
-    }
-
-    IEnumerator test()
-    {
-
-        Debug.Log("AAAA");
-
-        // Pause at the end point for the specified duration.
-        yield return new WaitForSeconds(pauseDuration);
-
-        Debug.Log("BBB");
     }
 }
