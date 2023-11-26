@@ -9,6 +9,9 @@ using SunTemple; // Assuming CharController_Motor is in the SunTemple namespace
 public class SaveManager : MonoBehaviour
 {
     public static SaveManager Instance { get; private set; }
+    public AudioSource musicAudioSource; // Add this line to declare AudioSource
+    public AudioSource effectsAudioSource; // Add this line to declare AudioSource
+    public Light lightSource; // Reference to the Light component
 
     [SerializeField] private bool isSavingJson = false;
 
@@ -204,22 +207,50 @@ private void SetPlayerData(PlayerData playerData)
     {
         public float music;
         public float effects;
-        public float master;
+    }
+ [System.Serializable]
+    public class LightSettings
+    {
+        public float lightIntensity;
     }
 
-    public void SaveVolumeSettings(float _music, float _effects, float _master)
+    public void SaveVolumeSettings(float _music, float _effects)
     {
         VolumeSettings volumeSettings = new VolumeSettings()
         {
             music = _music,
             effects = _effects,
-            master = _master
         };
 
         string json = JsonUtility.ToJson(volumeSettings);
         PlayerPrefs.SetString("Volume", json);
         PlayerPrefs.Save();
         Debug.Log("Saved to PlayerPrefs");
+
+        // Update the volume of musicAudioSource if it exists
+        if (musicAudioSource != null)
+        {
+            musicAudioSource.volume = _music;
+        }
+        
+        // Update the volume of effectsAudioSource if it exists
+        if (effectsAudioSource != null)
+        {
+            effectsAudioSource.volume = _effects;
+        }
+    }
+
+  public void SaveLightSettings(float _lightIntensity)
+    {
+        LightSettings lightSettings = new LightSettings()
+        {
+            lightIntensity = _lightIntensity
+        };
+
+        string json = JsonUtility.ToJson(lightSettings);
+        PlayerPrefs.SetString("LightIntensity", json);
+        PlayerPrefs.Save();
+        Debug.Log("Saved light intensity settings to PlayerPrefs");
     }
 
     public VolumeSettings LoadVolumeSettings()
@@ -232,6 +263,18 @@ private void SetPlayerData(PlayerData playerData)
         else
         {
             return new VolumeSettings();
+        }
+    }
+      public LightSettings LoadLightSettings()
+    {
+        if (PlayerPrefs.HasKey("LightIntensity"))
+        {
+            string json = PlayerPrefs.GetString("LightIntensity");
+            return JsonUtility.FromJson<LightSettings>(json);
+        }
+        else
+        {
+            return new LightSettings();
         }
     }
 }

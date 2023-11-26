@@ -11,7 +11,6 @@ public class MenuManager : MonoBehaviour
     public GameObject uiCanvas;
     public GameObject menu;
     public GameObject saveMenu;
-    public GameObject settingMenu;
 
     private bool isMenuOpen;
     private int selectedOption;
@@ -60,12 +59,12 @@ public class MenuManager : MonoBehaviour
         {
             selectedOption--;
             if (selectedOption < 0)
-                selectedOption = 2;
+                selectedOption = 1;
         }
         else if (menuInput < -0.1f)
         {
             selectedOption++;
-            if (selectedOption > 2)
+            if (selectedOption > 1)
                 selectedOption = 0;
         }
 
@@ -81,7 +80,6 @@ public class MenuManager : MonoBehaviour
     {
         menu.SetActive(selectedOption == 0);
         saveMenu.SetActive(selectedOption == 1);
-        settingMenu.SetActive(selectedOption == 2);
     }
 
     void SelectMenuOption()
@@ -93,9 +91,6 @@ public class MenuManager : MonoBehaviour
                 break;
             case 1:
                 ToggleSaveMenu();
-                break;
-            case 2:
-                ToggleSettingsMenu();
                 break;
         }
     }
@@ -143,11 +138,13 @@ public class MenuManager : MonoBehaviour
         saveMenu.SetActive(!saveMenu.activeSelf);
     }
 
-    void ToggleSettingsMenu()
+    public void TempSaveGame()
     {
-        settingMenu.SetActive(!settingMenu.activeSelf);
-    }
-    public void TempSaveGame(){
         SaveManager.Instance.SaveGame();
+    }
+
+    public void RetryGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

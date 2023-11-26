@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.UI; // You need to include the UI namespace for the Button type.
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
@@ -8,11 +8,25 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
-        // Add a click event listener to the LoadGameBTN button.
-         LoadGameBTN.onClick.AddListener(() =>
+        // Add a null check before adding the click event listener.
+        if (LoadGameBTN != null)
         {
-            SaveManager.Instance.StartLoadedGame();
-        });
+            LoadGameBTN.onClick.AddListener(() =>
+            {
+                if (SaveManager.Instance != null)
+                {
+                    SaveManager.Instance.StartLoadedGame();
+                }
+                else
+                {
+                    Debug.LogError("SaveManager Instance is not assigned!");
+                }
+            });
+        }
+        else
+        {
+            Debug.LogError("LoadGameBTN is not assigned!");
+        }
     }
 
     public void NewGame()

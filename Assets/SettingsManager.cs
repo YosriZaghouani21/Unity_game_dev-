@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using static SaveManager;
+
 public class SettingsManager : MonoBehaviour
 {
     public static SettingsManager Instance { get; private set; }
+    public AudioSource musicAudioSource;
+    public AudioSource effectsAudioSource;
+    public Light lightSource;
 
     public Button backBTN;
-    public Slider masterSlider;
-    public TextMeshProUGUI masterValue;
+    public Slider lightSlider;
+    public TextMeshProUGUI lightValue;
 
     public Slider musicSlider;
     public TextMeshProUGUI musicValue;
@@ -32,47 +35,51 @@ public class SettingsManager : MonoBehaviour
 
     private void Start()
     {
-        // Load saved volume settings
-        LoadVolumeSettings();
+        LoadSettings();
+
+        lightSlider.onValueChanged.AddListener(delegate { UpdateLightIntensity(); });
+        musicSlider.onValueChanged.AddListener(delegate { UpdateMusicVolume(); });
+        effectsSlider.onValueChanged.AddListener(delegate { UpdateEffectsVolume(); });
 
         backBTN.onClick.AddListener(() =>
         {
-            // Save the updated volume settings when the back button is clicked
-            SaveManager.Instance.SaveVolumeSettings(musicSlider.value, effectsSlider.value, masterSlider.value);
+            SaveManager.Instance.SaveVolumeSettings(musicSlider.value, effectsSlider.value);
+            SaveManager.Instance.SaveLightSettings(lightSlider.value);
         });
-
-        StartCoroutine(LoadAndApplySettings()); // Corrected StartCoroutine
     }
 
-    private IEnumerator LoadAndApplySettings()
-    {
-        LoadAndSetVolume();
-        yield return new WaitForSeconds(0.1f); // Corrected WaitForSeconds
-    }
-
-    private void LoadAndSetVolume()
+    private void LoadSettings()
     {
         SaveManager.VolumeSettings volumeSettings = SaveManager.Instance.LoadVolumeSettings();
-        masterSlider.value = volumeSettings.master;
+        SaveManager.LightSettings lightSettings = SaveManager.Instance.LoadLightSettings();
+
+        lightSlider.value = lightSettings.lightIntensity;
         musicSlider.value = volumeSettings.music;
         effectsSlider.value = volumeSettings.effects;
-        Debug.Log("Volume Settings are loaded"); // Changed "print" to "Debug.Log"
+
+        UpdateLightIntensity();
+        UpdateMusicVolume();
+        UpdateEffectsVolume();
     }
 
-    private void Update()
+    private void UpdateLightIntensity()
     {
-        // Update the text values based on slider values
-        masterValue.text = masterSlider.value.ToString();
+        lightValue.text = lightSlider.value.ToString();
+        if (lightSource != null)
+        {
+            lightSource.intensity = lightSlider.value;
+        }
+    }
+
+    private void UpdateMusicVolume()
+    {
         musicValue.text = musicSlider.value.ToString();
-        effectsValue.text = effectsSlider.value.ToString();
+        musicAudioSource.volume = musicSlider.value;
     }
 
-    private void LoadVolumeSettings()
+    private void UpdateEffectsVolume()
     {
-        // Load and apply volume settings when the script starts
-        SaveManager.VolumeSettings volumeSettings = SaveManager.Instance.LoadVolumeSettings();
-        masterSlider.value = volumeSettings.master;
-        musicSlider.value = volumeSettings.music;
-        effectsSlider.value = volumeSettings.effects;
+        effectsValue.text = effectsSlider.value.ToString();
+        effectsAudioSource.volume = effectsSlider.value;
     }
 }
