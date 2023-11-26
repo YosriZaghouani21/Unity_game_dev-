@@ -10,17 +10,40 @@ public class PickItems : MonoBehaviour
     public bool playerInRange;
     public bool isKeyEquipped = false; 
     public InventoryManager inventoryManager;
-
+    public float xRotationThreshold = 0.5f;
     void Start()
     {
         Item.GetComponent<Rigidbody>().isKinematic = true;
         initialBookRotation = Item.transform.rotation;
         initialBookPosition = Item.transform.position;
         inventoryManager = GameObject.FindGameObjectWithTag("Player").GetComponent<InventoryManager>();
+        if (SystemInfo.supportsGyroscope)
+        {
+            Input.gyro.enabled = true;
+        }
+        else
+        {
+            Debug.LogWarning("Gyroscope not supported on this device");
+        }
     }
 
     void Update()
     {
+        if (SystemInfo.supportsGyroscope && playerInRange)
+        {
+            if (Mathf.Abs(Input.gyro.rotationRateUnbiased.x) > xRotationThreshold)
+            {
+                if (!isPickedUp)
+                {
+                    Collider playerCollider = GameObject.FindGameObjectWithTag("Player").GetComponent<Collider>();
+                    if (playerCollider != null)
+                    {
+                        EquipItem(playerCollider);
+                    }
+                }
+            }
+        }
+
         if (Input.GetKey(KeyCode.F))
         {
             DropItem();
@@ -53,7 +76,7 @@ public class PickItems : MonoBehaviour
         Item.transform.Rotate(84.939f, -1.999f, -184.178f);
         if (Item.CompareTag("Key"))
         {
-            inventoryManager.AddItem(Item.tag); // Add the key to the inventory
+            inventoryManager.AddItem(this.Item.tag, this);
             isKeyEquipped = true;
         }
     }
@@ -61,7 +84,7 @@ public class PickItems : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            if (Input.GetKey(KeyCode.E))
+            if (Mathf.Abs(Input.gyro.rotationRateUnbiased.x) > xRotationThreshold)
             {
                 EquipItem(other);
             }

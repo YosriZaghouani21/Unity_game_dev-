@@ -5,18 +5,28 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
-    private HashSet<string> itemsCollected = new HashSet<string>();
+    private Dictionary<string, PickItems> itemsCollected = new Dictionary<string, PickItems>();
 
-    public void AddItem(string itemTag)
+    public void AddItem(string itemTag, PickItems itemScript)
     {
-        itemsCollected.Add(itemTag);
+        if (!itemsCollected.ContainsKey(itemTag))
+        {
+            itemsCollected.Add(itemTag, itemScript);
+        }
     }
+
     public bool HasItem(string itemTag)
     {
-        return itemsCollected.Contains(itemTag);
+        return itemsCollected.ContainsKey(itemTag);
     }
-    public void RemoveItem(string itemTag)
+
+    public PickItems RemoveItem(string itemTag)
     {
-        itemsCollected.Remove(itemTag);
+        if (itemsCollected.TryGetValue(itemTag, out PickItems itemScript))
+        {
+            itemsCollected.Remove(itemTag);
+            return itemScript;
+        }
+        return null;
     }
 }
