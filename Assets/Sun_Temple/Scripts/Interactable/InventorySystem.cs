@@ -57,7 +57,7 @@ public class InventorySystem : MonoBehaviour
         }
     }
 
-  void Update()
+  public void Update()
     {
         Vector3 acceleration = Input.acceleration;
         lowPassValue = Vector3.Lerp(lowPassValue, acceleration, lowPassFilterFactor);
@@ -72,7 +72,6 @@ public class InventorySystem : MonoBehaviour
         }
 
 
-        Debug.Log("Update is called");
 
         if (Input.GetKeyDown(KeyCode.I) && !isOpen)
         {
@@ -95,9 +94,25 @@ public class InventorySystem : MonoBehaviour
 
 
 
+  
 
+    public void ToggleInventory()
+    {
+        isOpen = !isOpen; // Toggle the state
 
-
+        if (isOpen)
+        {
+            Debug.Log("Inventory opened");
+            inventoryScreenUI.SetActive(true);
+            Cursor.lockState = CursorLockMode.None;
+        }
+        else
+        {
+            Debug.Log("Inventory closed");
+            inventoryScreenUI.SetActive(false);
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+    }
 
     public void AddToInventory(string itemName)
      {
@@ -106,35 +121,7 @@ public class InventorySystem : MonoBehaviour
          itemToAdd.transform.SetParent(WhatSlotToEquip.transform);
          itemList.Add(itemName);
      } 
-  /* 
-    public void AddToInventory(string itemName)
-    {
-        WhatSlotToEquip = FindNextEmptySlot();
-
-        // Log the name of the item you are trying to add
-        Debug.Log("Trying to add item: " + itemName);
-
-        // Load the prefab
-        GameObject prefab = Resources.Load(itemName) as GameObject;
-        if (prefab != null)
-        {
-            // Log success
-            Debug.Log("Prefab loaded successfully: " + prefab.name);
-
-            // Instantiate and set parent
-            itemToAdd = Instantiate(prefab, WhatSlotToEquip.transform.position, WhatSlotToEquip.transform.rotation);
-            itemToAdd.transform.SetParent(WhatSlotToEquip.transform);
-
-            // Add to the item list
-            itemList.Add(itemName);
-        }
-        else
-        {
-            // Log failure
-            Debug.LogError("Failed to load prefab: " + itemName);
-        }
-    }
-  */
+  
 
     private GameObject FindNextEmptySlot()
     {
