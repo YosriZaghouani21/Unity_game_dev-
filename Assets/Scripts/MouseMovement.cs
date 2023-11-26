@@ -32,9 +32,9 @@ public class MouseMovement : MonoBehaviour
 
     void Update()
     {
-        if(!DialogueSystem.Instance.dialogUIActive)
-        { 
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
+        if (!DialogueSystem.Instance.dialogUIActive )
+        {
+            float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
         //control rotation around x axis (Look up and down)
@@ -63,5 +63,5 @@ public class MouseMovement : MonoBehaviour
         Cursor.visible = false;  // Make cursor invisible
         enabled = true;  // Re-enable the script
     }
-
+    
 }

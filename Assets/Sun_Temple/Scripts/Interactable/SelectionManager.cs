@@ -50,6 +50,7 @@ public class SelectionManager : MonoBehaviour
         {
             Instance = this;
         }
+        
 
     }
     void Update()
@@ -122,10 +123,10 @@ public class SelectionManager : MonoBehaviour
             }
 
             else
-            {
-                interaction_text.text = "";
-                interaction_Info_UI.SetActive(true);
-            }
+                {
+                    interaction_text.text = "";
+                    interaction_Info_UI.SetActive(true);
+                }
             if (interactable && interactable.playerInRange)
             {
                 interaction_text.text = interactable.GetItemName();
