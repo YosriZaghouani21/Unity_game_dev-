@@ -1,5 +1,5 @@
+// NPC script
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
@@ -14,6 +14,15 @@ public class NPC : MonoBehaviour
     private int currentTextIndex;
     private int characterIndex;
 
+    private enum NPCState
+    {
+        Idle,
+        FirstConversation,
+        SecondConversation
+    }
+
+    private NPCState currentState;
+
     private void Start()
     {
         // Assign the NPCMovementAI component from the same GameObject
@@ -22,6 +31,9 @@ public class NPC : MonoBehaviour
         {
             Debug.LogWarning("NPCMovementAI component not found on the same GameObject.");
         }
+
+        // Set the initial state to Idle
+        currentState = NPCState.Idle;
     }
 
     private void EndConversation()
@@ -37,13 +49,24 @@ public class NPC : MonoBehaviour
         // Here we call MoveToLevel1, but first check if npcMovementAI is not null
         if (npcMovementAI != null)
         {
-            npcMovementAI.MoveToLevel1();
+            // Update the state based on the current state
+            switch (currentState)
+            {
+                case NPCState.FirstConversation:
+                    // Move to the first destination
+                    npcMovementAI.MoveToLevel1();
+                    break;
+
+                case NPCState.SecondConversation:
+                    // Move to the new destination
+                    npcMovementAI.MoveToNewDestination();
+                    break;
+
+                default:
+                    break;
+            }
         }
     }
-
-
-
-
 
     private void OnTriggerEnter(Collider other)
     {
@@ -65,10 +88,35 @@ public class NPC : MonoBehaviour
     {
         isTalkingWithPlayer = true;
         print("Conversation Started");
+
+        // Update the state based on the current state
+        switch (currentState)
+        {
+            case NPCState.Idle:
+                // Start the first conversation
+                StartFirstConversation();
+                break;
+
+            case NPCState.FirstConversation:
+                // Start the second conversation
+                StartSecondConversation();
+                break;
+
+            case NPCState.SecondConversation:
+                // Handle additional states if needed
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    private void StartFirstConversation()
+    {
         DialogueSystem.Instance.OpenDialogUI();
         fullTexts = new string[]
         {
-            "Greetings, Traveler lost in time. I am Monejya, your guide through this extraordinary journey.",
+          "Greetings, Traveler lost in time. I am Monejya, your guide through this extraordinary journey.",
             "You may be feeling disoriented, but fear not I am here to assist you.",
             "You stand amidst the Medina of Tunis in the year 1900. Your quest is to recover lost artifacts.",
             "But be mindful of the clues hidden within these ancient streets. Start by examining the carpet over there."
@@ -76,6 +124,21 @@ public class NPC : MonoBehaviour
 
         currentTextIndex = 0;
         StartCoroutine(WriteText(fullTexts[currentTextIndex]));
+        currentState = NPCState.FirstConversation;
+    }
+
+    private void StartSecondConversation()
+    {
+        DialogueSystem.Instance.OpenDialogUI();
+        fullTexts = new string[]
+        {
+            "This is the second conversation text.",
+            // ... (other second conversation texts)
+        };
+
+        currentTextIndex = 0;
+        StartCoroutine(WriteText(fullTexts[currentTextIndex]));
+        currentState = NPCState.SecondConversation;
     }
 
     private IEnumerator WriteText(string text)
@@ -149,5 +212,4 @@ public class NPC : MonoBehaviour
             }
         });
     }
-
 }

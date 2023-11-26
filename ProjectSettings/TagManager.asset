@@ -8,6 +8,9 @@ TagManager:
   - NPC
   - Key
   - Slot
+  - Key
+  - NPC
+  - Tarbuka
   layers:
   - Default
   - TransparentFX
