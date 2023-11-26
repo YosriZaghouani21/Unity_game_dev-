@@ -28,7 +28,6 @@ public class Tarbuka : MonoBehaviour
         DialogueSystem.Instance.option1BTN.transform.Find("Text (TMP)").GetComponent<TextMeshProUGUI>().text = "Read More";
         DialogueSystem.Instance.option1BTN.gameObject.SetActive(true);
 
-
     }
 
 
@@ -51,19 +50,21 @@ public class Tarbuka : MonoBehaviour
 
     internal void StartConversation()
     {
-        isTalkingWithPlayer = true;
-        print("Conversation Started");
-        DialogueSystem.Instance.OpenDialogUI();
-        fullTexts = new string[]
-        {
+        
+            isTalkingWithPlayer = true;
+            print("Conversation Started");
+            DialogueSystem.Instance.OpenDialogUI();
+            fullTexts = new string[]
+            {
     "In the heart of the Tunisian Medina lies a tarbuka steeped in history. Crafted with precision, its surface tells tales of forgotten melodies through vibrant colors and intricate patterns. " ,
     "As you explore, you will discover the ancient drum's unique resonance—a key unlocking hidden passages in time. ",
     "Guided by the haunting echoes, the traveler unravels the secrets of lost artifacts, connecting with the rhythmic heartbeat of Tunisia's past." ,
-        };
+            };
 
-        currentTextIndex = 0;
-        StartCoroutine(WriteText(fullTexts[currentTextIndex]));
-    }
+            currentTextIndex = 0;
+            StartCoroutine(WriteText(fullTexts[currentTextIndex]));
+        
+        }
 
     private IEnumerator WriteText(string text)
     {
@@ -93,7 +94,6 @@ public class Tarbuka : MonoBehaviour
             DialogueSystem.Instance.option2BTN.transform.Find("Text (TMP)").GetComponent<TextMeshProUGUI>().text = "Bye";
             DialogueSystem.Instance.option2BTN.onClick.AddListener(() =>
             {
-                EndConversation();
             });
         }
     }
