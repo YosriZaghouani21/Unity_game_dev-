@@ -14,7 +14,7 @@ namespace SunTemple
         float rotHorizontal, rotVertical;
         public bool webGLRightClickRotation = true;
         float gravity = -9.8f;
-        
+
         // Store the initial position and rotation
         private Vector3 initialPosition;
         private Quaternion initialRotation;
@@ -61,6 +61,7 @@ namespace SunTemple
             rotVertical = Input.GetAxisRaw("Mouse Y") * sensitivity;
 
             Vector3 movement = new Vector3(moveFB, gravity, moveLR);
+            movement = transform.rotation * movement;
 
             if (webGLRightClickRotation)
             {
@@ -73,8 +74,6 @@ namespace SunTemple
             {
                 CameraRotation(cam, rotHorizontal, rotVertical);
             }
-
-            movement = transform.rotation * movement;
 
             if (character != null)
             {
