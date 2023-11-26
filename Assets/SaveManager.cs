@@ -191,7 +191,7 @@ private void SetPlayerData(PlayerData playerData)
 
     public void StartLoadedGame()
     {
-        SceneManager.LoadScene("lvl1test");
+        SceneManager.LoadScene("lvl1");
         StartCoroutine(DelayedLoading());
     }
 

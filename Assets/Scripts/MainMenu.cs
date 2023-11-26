@@ -31,7 +31,7 @@ public class MainMenu : MonoBehaviour
 
     public void NewGame()
     {
-        SceneManager.LoadScene("lvl1test");
+        SceneManager.LoadScene("lvl1");
     }
 
     public void ExitGame()
