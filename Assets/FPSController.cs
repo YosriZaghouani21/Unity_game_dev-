@@ -13,6 +13,7 @@ public class FirstPersonController : MonoBehaviour
     [SerializeField] private float moveSpeed;
     [SerializeField] private float moveInputDeadZone;
 
+
     // Touch detection
     private int leftFingerId, rightFingerId;
     private float halfScreenWidth;

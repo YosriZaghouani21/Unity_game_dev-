@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class SelectionManager : MonoBehaviour
 {
+    public static SelectionManager Instance { get; set; }
+
     public bool OnTarget;
     public GameObject interaction_Info_UI;
     Text interaction_text;
@@ -32,95 +34,104 @@ public class SelectionManager : MonoBehaviour
         }
     }
 
+
+
+
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+
+    }
     void Update()
     {
-        if (interaction_Info_UI != null && interaction_Info_UI.activeInHierarchy)
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit))
         {
-            // Ensure the Text component is also not null
-            if (interaction_text == null)
-            {
-                // Attempt to get the Text component again
-                interaction_text = interaction_Info_UI.GetComponent<Text>();
-                // If it's still null, then log a warning and return early
-                if (interaction_text == null)
-                {
-                    Debug.LogWarning("Text component on interaction_Info_UI is missing!");
-                    return;
-                }
-            }
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
-            {
-                var selectionTransform = hit.transform;
-                InteractableObject interactable = selectionTransform.GetComponent<InteractableObject>();
-                NPC npc = selectionTransform.GetComponent<NPC>();
-                Elisa item = selectionTransform.GetComponent<Elisa>();
-                Tarbuka item2 = selectionTransform.GetComponent<Tarbuka>();
-                if (npc && npc.playerInRange)
-                {
-                    interaction_text.text = "Talk";
-                    interaction_Info_UI.SetActive(true);
-                    if (Input.GetMouseButton(0) && npc.isTalkingWithPlayer == false)   //CHANGE TO TACTILE
-                    {
-                        npc.StartConversation();
-                    }
-                    if (DialogueSystem.Instance.dialogUIActive)
-                    {
-                        interaction_Info_UI.SetActive(false);
-                    }
-                }
-                else if (item && item.playerInRange)
-                {
-                    interaction_text.text = "Talk";
-                    interaction_Info_UI.SetActive(true);
-                    if (Input.GetMouseButton(0) && item.isTalkingWithPlayer == false)   //CHANGE TO TACTILE
-                    {
-                        item.StartConversation();
-                    }
-                    if (DialogueSystem.Instance.dialogUIActive)
-                    {
-                        interaction_Info_UI.SetActive(false);
-                    }
-                }
-                else if (item2 && item2.playerInRange)
-                {
-                    interaction_text.text = "Talk";
-                    interaction_Info_UI.SetActive(true);
-                    if (Input.GetMouseButton(0) && item2.isTalkingWithPlayer == false)   //CHANGE TO TACTILE
-                    {
-                        item2.StartConversation();
-                    }
-                    if (DialogueSystem.Instance.dialogUIActive)
-                    {
-                        interaction_Info_UI.SetActive(false);
-                    }
-                }
+            var selectionTransform = hit.transform;
+            InteractableObject interactable = selectionTransform.GetComponent<InteractableObject>();
+            NPC npc = selectionTransform.GetComponent<NPC>();
+            Elisa item = selectionTransform.GetComponent<Elisa>();
+            Tarbuka item2 = selectionTransform.GetComponent<Tarbuka>();
 
-                else
+            if (npc && npc.playerInRange)
+            {
+                interaction_text.text = "Talk";
+                interaction_Info_UI.SetActive(true);
+
+
+
+
+
+                if (Input.GetMouseButton(0) && npc.isTalkingWithPlayer == false)   //CHANGE TO TACTILE
                 {
-                    interaction_text.text = "";
-                    interaction_Info_UI.SetActive(true);
+                    npc.StartConversation();
                 }
-                if (interactable != null && interactable.playerInRange)
-                {
-                    interaction_text.text = interactable.GetItemName();
-                    interaction_Info_UI.SetActive(true);
-                    selectedObject = interactable.gameObject;
-                    OnTarget = true;
-                }
-                else
+                if (DialogueSystem.Instance.dialogUIActive)
                 {
                     interaction_Info_UI.SetActive(false);
-                    OnTarget = false;
                 }
+            }
 
+            else if (item2 && item2.playerInRange)
+            {
+                interaction_text.text = "Talk";
+                interaction_Info_UI.SetActive(true);
+                if (Input.GetMouseButton(0) && item2.isTalkingWithPlayer == false)   //CHANGE TO TACTILE
+                {
+                    item2.StartConversation();
+                }
+                if (DialogueSystem.Instance.dialogUIActive)
+                {
+                    interaction_Info_UI.SetActive(false);
+                }
+            }
+
+            else if (item && item.playerInRange)
+            {
+                interaction_text.text = "Talk";
+                interaction_Info_UI.SetActive(true);
+                if (Input.GetMouseButton(0) && item.isTalkingWithPlayer == false)   //CHANGE TO TACTILE
+                {
+                    item.StartConversation();
+                }
+                if (DialogueSystem.Instance.dialogUIActive)
+                {
+                    interaction_Info_UI.SetActive(false);
+                }
+            }
+
+            else
+            {
+                interaction_text.text = "";
+                interaction_Info_UI.SetActive(true);
+            }
+            if (interactable && interactable.playerInRange)
+            {
+                interaction_text.text = interactable.GetItemName();
+                interaction_Info_UI.SetActive(true);
+                selectedObject = interactable.gameObject;
+                OnTarget = true;
             }
             else
             {
                 interaction_Info_UI.SetActive(false);
+                OnTarget = false;
             }
 
         }
+        else
+        {
+            interaction_Info_UI.SetActive(false);
+        }
+
     }
 }
