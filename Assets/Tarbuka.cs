@@ -56,7 +56,9 @@ public class Tarbuka : MonoBehaviour
         DialogueSystem.Instance.OpenDialogUI();
         fullTexts = new string[]
         {
-    " TabukaTabukaTabukaTabukaTabukaTabukaTabukaTabukaTabukaTabukaTabukaTabukaTabukaTabuka"        ,
+    "In the heart of the Tunisian Medina lies a tarbuka steeped in history. Crafted with precision, its surface tells tales of forgotten melodies through vibrant colors and intricate patterns. " ,
+    "As you explore, you will discover the ancient drum's unique resonance—a key unlocking hidden passages in time. ",
+    "Guided by the haunting echoes, the traveler unravels the secrets of lost artifacts, connecting with the rhythmic heartbeat of Tunisia's past." ,
         };
 
         currentTextIndex = 0;
