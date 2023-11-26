@@ -2,6 +2,10 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using static UnityEditor.PlayerSettings;
+using static UnityEditor.ShaderData;
+using UnityEngine.UIElements;
+using VSCodeEditor;
 
 public class NPC : MonoBehaviour
 {
@@ -142,27 +146,27 @@ public class NPC : MonoBehaviour
         DialogueSystem.Instance.OpenDialogUI();
         fullTexts = new string[]
         {
-            "This is the second conversation text.",
-            // ... (other second conversation texts)
+           "Time-traveler, Asslema again It's now 1925, and hidden within the Medina of Tunis lies a KEY ",
+           "to your quest for lost artifacts. Pay heed to the cryptic whispers woven into time.",
+            "Search the narrow alleys, for a mysterious clue is concealed within an ornate tapestry on the wall.",
+            "Unravel its secrets, and let the echoes of the past guide you.Your journey awaits, brave adventurer.",
+            "Seek, discover, and unlock the mysteries of 1925."
         };
-
-        currentTextIndex = 0;
+    currentTextIndex = 0;
         StartCoroutine(WriteText(fullTexts[currentTextIndex]));
-        currentState = NPCState.SecondConversation;
+    currentState = NPCState.SecondConversation;
     }
-
-    private IEnumerator WriteText(string text)
+private IEnumerator WriteText(string text)
+{
+    isWriting = true;
+    characterIndex = 0;
+    string displayedText = "";
+    while (characterIndex < text.Length)
     {
-        isWriting = true;
-        characterIndex = 0;
-        string displayedText = "";
+        displayedText += text[characterIndex];
+        characterIndex++;
 
-        while (characterIndex < text.Length)
-        {
-            displayedText += text[characterIndex];
-            characterIndex++;
-
-            // Update the TextMeshPro text component
+        // Update the TextMeshPro text component
             DialogueSystem.Instance.dialogtext.text = displayedText;
 
             yield return new WaitForSeconds(0.05f); // You can adjust the time delay between characters.
