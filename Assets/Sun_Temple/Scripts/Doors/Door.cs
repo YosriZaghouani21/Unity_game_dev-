@@ -26,7 +26,7 @@ namespace SunTemple
         float LerpTime = 1f;
         float CurrentLerpTime = 0;
         bool Rotating;
-
+        public float yRotationThreshold = 0.5f;
 
         private bool scriptIsEnabled = true;
 
@@ -78,6 +78,14 @@ namespace SunTemple
                 cursor.SetCursorToDefault();
             }
 
+            if (SystemInfo.supportsGyroscope)
+            {
+                Input.gyro.enabled = true;
+            }
+            else
+            {
+                Debug.LogWarning("Gyroscope not supported on this device");
+            }
 
         }
 
@@ -90,7 +98,7 @@ namespace SunTemple
                     Rotate();
                 }
 
-                if (Input.GetKeyDown(KeyCode.Mouse0))
+                if (Mathf.Abs(Input.gyro.rotationRateUnbiased.y) > yRotationThreshold)
                 {
                     TryToOpen();
                 }
@@ -118,8 +126,12 @@ namespace SunTemple
                         {
                             IsLocked = false;
                             Debug.Log("The door is now unlocked and open.");
-
                             Activate();
+                            PickItems keyItem = inventoryManager.RemoveItem("Key");
+                            if (keyItem != null)
+                            {
+                                keyItem.DropItem(); // Drop the key
+                            }
                         }
                         else
                         {
@@ -128,11 +140,11 @@ namespace SunTemple
                     }
                     else if (DoorClosed)
                     {
-                        Activate();
+                        Open();
                     }
                     else
                     {
-                        Activate();
+                        Close();
                     }
                 }
             }
