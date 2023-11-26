@@ -17,7 +17,11 @@ public class NPC : MonoBehaviour
     private string[] fullTexts;
     private int currentTextIndex;
     private int characterIndex;
-
+    public float shakeDetectionThreshold = 2.0f;
+    private float accelerometerUpdateInterval = 1.0f / 60.0f;
+    private float lowPassKernelWidthInSeconds = 1.0f;
+    private float lowPassFilterFactor;
+    private Vector3 lowPassValue;
     private enum NPCState
     {
         Idle,
@@ -38,8 +42,14 @@ public class NPC : MonoBehaviour
 
         // Set the initial state to Idle
         currentState = NPCState.Idle;
+        lowPassFilterFactor = accelerometerUpdateInterval / lowPassKernelWidthInSeconds;
+        lowPassValue = Input.acceleration;
     }
-
+    private void Update()
+    {
+        // Here you would call the method that checks for a shake
+        CheckForShakeToEndConversation();
+    }
     private void EndConversation()
     {
         DialogueSystem.Instance.CloseDialogUI();
@@ -215,5 +225,19 @@ private IEnumerator WriteText(string text)
                 DialogueSystem.Instance.option1BTN.gameObject.SetActive(true);
             }
         });
+    }
+    private void CheckForShakeToEndConversation()
+    {
+        // Read the accelerometer data
+        Vector3 acceleration = Input.acceleration;
+        lowPassValue = Vector3.Lerp(lowPassValue, acceleration, lowPassFilterFactor);
+        Vector3 deltaAcceleration = acceleration - lowPassValue;
+
+        // Check if the acceleration on the z-axis exceeds the threshold and the player is in a conversation
+        if (Mathf.Abs(deltaAcceleration.z) > shakeDetectionThreshold && isTalkingWithPlayer)
+        {
+            // Shake detected and the NPC is currently talking with the player, end the conversation
+            EndConversation();
+        }
     }
 }
