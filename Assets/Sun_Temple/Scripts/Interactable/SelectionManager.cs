@@ -63,6 +63,7 @@ public class SelectionManager : MonoBehaviour
             NPC npc = selectionTransform.GetComponent<NPC>();
             Elisa item = selectionTransform.GetComponent<Elisa>();
             Tarbuka item2 = selectionTransform.GetComponent<Tarbuka>();
+            Hannibal item3 = selectionTransform.GetComponent<Hannibal>();
 
             if (npc && npc.playerInRange)
             {
@@ -85,6 +86,20 @@ public class SelectionManager : MonoBehaviour
                 if (Input.GetMouseButton(0) && item2.isTalkingWithPlayer == false)   //CHANGE TO TACTILE
                 {
                     item2.StartConversation();
+                }
+                if (DialogueSystem.Instance.dialogUIActive)
+                {
+                    interaction_Info_UI.SetActive(false);
+                }
+            }
+
+            else if (item3 && item3.playerInRange)
+            {
+                interaction_text.text = "Talk";
+                interaction_Info_UI.SetActive(true);
+                if (Input.GetMouseButton(0) && item3.isTalkingWithPlayer == false)   //CHANGE TO TACTILE
+                {
+                    item3.StartConversation();
                 }
                 if (DialogueSystem.Instance.dialogUIActive)
                 {
