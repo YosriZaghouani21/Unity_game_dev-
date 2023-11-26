@@ -12,6 +12,8 @@ public class SelectionManager : MonoBehaviour
     public GameObject interaction_Info_UI;
     Text interaction_text;
     public GameObject selectedObject;
+
+
     private void Start()
     {
         interaction_Info_UI.SetActive(false);
