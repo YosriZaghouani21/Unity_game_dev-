@@ -94,7 +94,17 @@ public class MenuManager : MonoBehaviour
                 break;
         }
     }
-
+public void OpenMenuFromButton()
+    {
+        if (!isMenuOpen)
+        {
+            OpenMenu();
+        }
+        else
+        {
+            CloseMenu();
+        }
+    }
     void StartGame()
     {
         SceneManager.LoadScene("YourGameSceneName");
