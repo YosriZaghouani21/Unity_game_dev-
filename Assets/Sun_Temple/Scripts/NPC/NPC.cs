@@ -2,10 +2,6 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
-using static UnityEditor.PlayerSettings;
-using static UnityEditor.ShaderData;
-using UnityEngine.UIElements;
-using VSCodeEditor;
 
 public class NPC : MonoBehaviour
 {

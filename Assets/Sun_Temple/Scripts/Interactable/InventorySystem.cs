@@ -5,7 +5,6 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class InventorySystem : MonoBehaviour
 {
@@ -63,7 +62,7 @@ public class InventorySystem : MonoBehaviour
         lowPassValue = Vector3.Lerp(lowPassValue, acceleration, lowPassFilterFactor);
         Vector3 deltaAcceleration = acceleration - lowPassValue;
 
-        if (Mathf.Abs(deltaAcceleration.x) > shakeDetectionThreshold && isOpen)
+        if (Mathf.Abs(deltaAcceleration.x) > shakeDetectionThreshold && !isOpen)
         {
             Debug.Log("Shake detected on X axis, closing inventory");
             inventoryScreenUI.SetActive(false);
@@ -71,7 +70,13 @@ public class InventorySystem : MonoBehaviour
             isOpen = false;
         }
 
-
+        if (Mathf.Abs(deltaAcceleration.z) > shakeDetectionThreshold && isOpen)
+        {
+            Debug.Log("I is pressed and inventory is not open");
+            inventoryScreenUI.SetActive(true);
+            Cursor.lockState = CursorLockMode.None;
+            isOpen = true;
+        }
 
         if (Input.GetKeyDown(KeyCode.I) && !isOpen)
         {
