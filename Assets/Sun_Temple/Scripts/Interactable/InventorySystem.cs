@@ -140,7 +140,6 @@ public class InventorySystem : MonoBehaviour
 
 
 
-
     public bool CheckIfFull()
  {
      int counter = 0;
