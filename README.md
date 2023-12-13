@@ -24,6 +24,9 @@ Embark on an extraordinary journey through time in our enchanting game, where th
 
 ![Screenshot 1](https://res.cloudinary.com/dr63ndxik/image/upload/v1702503672/iqvbj0dxm9pf1ioeo2lz.webp)
 ![Screenshot 2](https://res.cloudinary.com/dr63ndxik/image/upload/v1702503672/iqvbj0dxm9pf1ioeo2lz.webp)
+![Screenshot 1](https://res.cloudinary.com/dr63ndxik/image/upload/v1702504489/fenwnngun0ijwws4592b.png)
+![Screenshot 2](https://res.cloudinary.com/dr63ndxik/image/upload/v1702504491/ojwm0mukvlprlnzdum8n.png)
+![Screenshot 2](https://res.cloudinary.com/dr63ndxik/image/upload/v1702504496/bbuuq9f5gycpujtqjt46.png)
 
 ## Contributing
 
