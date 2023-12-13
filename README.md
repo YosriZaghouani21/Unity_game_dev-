@@ -2,7 +2,7 @@
 
 ![Game Banner](https://res.cloudinary.com/dr63ndxik/image/upload/v1702503673/fchudz5yv6w6fr0anzgx.webp)
 
-Embark on an extraordinary journey through time in our enchanting game, where the rich history of Tunisia comes alive...
+Embark on an extraordinary journey through time in our enchanting game, where the rich history of Tunisia comes alive. Immerse yourself in captivating narratives inspired by legendary figures such as Hannibal the Great and Elissa, the Phoenician princess. Discover the secrets of ancient civilizations, forge alliances, and shape destinies in a world where history meets fantasy.
 
 ## Features
 
