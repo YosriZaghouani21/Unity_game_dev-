@@ -1,20 +1,33 @@
-# Welcome to Tunisian Time Travel
+# Welcome to Tunisian Time Travel TTT
 
-Embark on an extraordinary journey through time in our enchanting game, where the rich history of Tunisia comes alive. Immerse yourself in captivating narratives inspired by legendary figures such as Alexander the Great and Elissa, the Phoenician princess. Discover the secrets of ancient civilizations, forge alliances, and shape destinies in a world where history meets fantasy.
+![Game Banner]([/path/to/banner-image.jpg](https://res.cloudinary.com/dr63ndxik/image/upload/v1702503673/fchudz5yv6w6fr0anzgx.webp))
+
+Embark on an extraordinary journey through time in our enchanting game, where the rich history of Tunisia comes alive...
 
 ## Features
 
 - **Timeless Legends:** Uncover the tales of iconic figures like Alexander the Great and Elissa, each with their own magical narratives.
-  
+
 - **Mystical World:** Explore enchanting landscapes inspired by the historical and mystical charm of Tunisia.
 
 - **Epic Adventures:** Shape destinies, forge alliances, and navigate through a world where the past and fantasy intertwine.
 
+## Installation
+
+To embark on this mesmerizing adventure, follow these simple steps...
+
 ## Gameplay
 
 - Navigate through historical landscapes, encountering legendary characters and facing mystical challenges.
+
 - Make strategic decisions that impact the course of history and shape the destiny of your journey.
+
 - Uncover hidden secrets, artifacts, and magical elements that add depth to the gameplay.
+
+## Screenshots
+
+![Screenshot 1](/path/to/screenshot-1.jpg)
+![Screenshot 2](/path/to/screenshot-2.jpg)
 
 ## Contributing
 
@@ -22,7 +35,7 @@ We welcome contributions from the community! If you have ideas, bug reports, or 
 
 ## License
 
-This project is licensed under the MIT - see the [LICENSE.md](LICENSE.md) file for details.
+This project is licensed under the [Your License] - see the [LICENSE.md](LICENSE.md) file for details.
 
 ## Acknowledgments
 
