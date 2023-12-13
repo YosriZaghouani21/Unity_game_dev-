@@ -1,6 +1,6 @@
 # Welcome to Tunisian Time Travel TTT
 
-![Game Banner]([/path/to/banner-image.jpg](https://res.cloudinary.com/dr63ndxik/image/upload/v1702503673/fchudz5yv6w6fr0anzgx.webp))
+![Game Banner](https://res.cloudinary.com/dr63ndxik/image/upload/v1702503673/fchudz5yv6w6fr0anzgx.webp)
 
 Embark on an extraordinary journey through time in our enchanting game, where the rich history of Tunisia comes alive...
 
@@ -12,10 +12,6 @@ Embark on an extraordinary journey through time in our enchanting game, where th
 
 - **Epic Adventures:** Shape destinies, forge alliances, and navigate through a world where the past and fantasy intertwine.
 
-## Installation
-
-To embark on this mesmerizing adventure, follow these simple steps...
-
 ## Gameplay
 
 - Navigate through historical landscapes, encountering legendary characters and facing mystical challenges.
@@ -26,8 +22,8 @@ To embark on this mesmerizing adventure, follow these simple steps...
 
 ## Screenshots
 
-![Screenshot 1](/path/to/screenshot-1.jpg)
-![Screenshot 2](/path/to/screenshot-2.jpg)
+![Screenshot 1](https://res.cloudinary.com/dr63ndxik/image/upload/v1702503672/iqvbj0dxm9pf1ioeo2lz.webp)
+![Screenshot 2](https://res.cloudinary.com/dr63ndxik/image/upload/v1702503672/iqvbj0dxm9pf1ioeo2lz.webp)
 
 ## Contributing
 
@@ -35,7 +31,7 @@ We welcome contributions from the community! If you have ideas, bug reports, or 
 
 ## License
 
-This project is licensed under the [Your License] - see the [LICENSE.md](LICENSE.md) file for details.
+This project is licensed under the MIT - see the [LICENSE.md](LICENSE.md) file for details.
 
 ## Acknowledgments
 
